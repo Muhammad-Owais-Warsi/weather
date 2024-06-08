@@ -55,7 +55,7 @@ export default function WeatherCard() {
         toast.warning("Enter a place name");
         return;
       }
-      const response = await axios.get(`http://api.openweathermap.org/geo/1.0/direct?q=${place}&limit=5&appid=${import.meta.env.VITE_API_KEY}`);
+      const response = await axios.get(`https://api.openweathermap.org/geo/1.0/direct?q=${place}&limit=5&appid=${import.meta.env.VITE_API_KEY}`);
       console.log("result", response.data);
       if (response.data && response.data.length > 0) {
         setLocation({
