@@ -4,8 +4,8 @@ import { CircularProgress } from "@nextui-org/react";
 import Toggle from "./toggle";
 import axios from "axios";
 import Footer from "./footer";
-
-import { toast } from "sonner";
+import { Link } from "@nextui-org/react";
+import { toast } from "sonner"
 
 type LatLonType = {
   lat: number;
@@ -22,10 +22,26 @@ type WeatherType = {
 };
 
 export default function WeatherCard() {
+
   const [place, setPlace] = useState<string>("");
   const [location, setLocation] = useState<LatLonType>({ lat: 0, lon: 0 });
-  const [data, setData] = useState<WeatherType | null>(null);
+  const [data, setData] = useState<WeatherType>({
+    name: "",
+    temperature: 0,
+    humidity: 0,
+    weather: "",
+    wind: 0,
+    visibility: 0
+  });
   const [currentDate, setCurrentDate] = useState<string>("");
+
+  function LinkTag() {
+    return (
+      <Link isExternal href="https://github.com/nextui-org/nextui" showAnchorIcon className="relative bottom-10">
+        Owais
+      </Link>
+    );
+  }
 
   const refresh = () => {
     setPlace(""); // Clear the place state
@@ -34,12 +50,11 @@ export default function WeatherCard() {
 
   const submit = async () => {
     try {
-      console.log(location)
       if (!place) {
         toast.warning("Enter a place name");
         return;
       }
-      const response = await axios.get(`https://api.openweathermap.org/geo/1.0/direct?q=${place}&limit=5&appid=${import.meta.env.VITE_API_KEY}`);
+      const response = await axios.get(`http://api.openweathermap.org/geo/1.0/direct?q=${place}&limit=5&appid=${import.meta.env.VITE_API_KEY}`);
       console.log("result", response.data);
       if (response.data && response.data.length > 0) {
         setLocation({
@@ -57,6 +72,8 @@ export default function WeatherCard() {
     }
   };
 
+
+
   const fetchWeatherData = async (lat: number, lon: number) => {
     try {
       const response = await fetch(
@@ -72,8 +89,10 @@ export default function WeatherCard() {
           wind: data.wind.speed,
           visibility: data.visibility / 1000
         });
+
       } else {
         console.error("Error fetching weather data:", data.message);
+
       }
     } catch (error) {
       console.error("Error fetching weather data:", error);
@@ -108,46 +127,52 @@ export default function WeatherCard() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center">
-      {data ? (
-        <div className="bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg border border-gray-300 rounded-md shadow-lg p-4 w-[30rem]">
-          <div className="flex flex-col items-center">
-            <div className="flex w-full justify-between items-center">
-              <Input type="text" placeholder="Location" className="flex-1 mr-2 h-10" value={place} onChange={(e) => setPlace(e.target.value)} />
-              <Button color="default" variant="ghost" className="w-[4rem] mr-3" onClick={submit}>
-                Search
-              </Button>
-              <Toggle />
-            </div>
-            <div className="font-bold text-xl mt-4">{data.name}</div>
-            <div className="text-sm text-gray-500">{currentDate}</div>
-            <div className="mt-6 text-6xl text-indigo-400">{data.temperature}°C</div>
-            <div className="flex flex-row justify-between mt-6 w-full">
-              <div className="flex flex-col items-center">
-                <div className="font-medium text-sm">Wind</div>
-                <div className="text-sm text-gray-500">{data.wind} m/s</div>
+    <>
+
+      {
+        data ? <div className="min-h-screen flex items-center justify-center">
+          <div className="bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg border border-gray-300 rounded-md shadow-lg p-4 w-[30rem]">
+            <div className="flex flex-col items-center">
+              <div className="flex w-full justify-between items-center">
+                <Input type="text" placeholder="Location" className="flex-1 mr-2 h-10" onChange={(e) => setPlace(e.target.value)} />
+                <Button color="default" variant="ghost" className="w-[4rem] mr-3" onClick={submit}>Search</Button>
+                <Toggle />
               </div>
-              <div className="flex flex-col items-center">
-                <div className="font-medium text-sm">Humidity</div>
-                <div className="text-sm text-gray-500">{data.humidity}%</div>
+              <div className="font-bold text-xl mt-4">{data.name}</div>
+              <div className="text-sm text-gray-500">{currentDate}</div>
+              <div className="mt-6 text-6xl text-indigo-400">
+                {data.temperature}°C
               </div>
-              <div className="flex flex-col items-center">
-                <div className="font-medium text-sm">Visibility</div>
-                <div className="text-sm text-gray-500">{data.visibility} km</div>
-              </div>
-              <div className="flex flex-col items-center">
-                <div className="font-medium text-sm">Weather</div>
-                <div className="text-sm text-gray-500">{data.weather}</div>
+              <div className="flex flex-row justify-between mt-6 w-full">
+                <div className="flex flex-col items-center">
+                  <div className="font-medium text-sm">Wind</div>
+                  <div className="text-sm text-gray-500">{data.wind} m/s</div>
+                </div>
+                <div className="flex flex-col items-center">
+                  <div className="font-medium text-sm">Humidity</div>
+                  <div className="text-sm text-gray-500">{data.humidity}%</div>
+                </div>
+                <div className="flex flex-col items-center">
+                  <div className="font-medium text-sm">Visibility</div>
+                  <div className="text-sm text-gray-500">{data.visibility} km</div>
+                </div>
+                <div className="flex flex-col items-center">
+                  <div className="font-medium text-sm">Weather</div>
+                  <div className="text-sm text-gray-500">{data.weather}</div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      ) : (
-        <div className="flex items-center justify-center min-h-screen">
+        </div> : <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
           <CircularProgress size="lg" aria-label="Loading..." />
         </div>
-      )}
-      <Footer />
-    </div>
+      }
+<div className="flex justify-center absolute bottom-20 w-full">
+  <LinkTag />
+</div>
+
+
+    </>
+
   );
 }
