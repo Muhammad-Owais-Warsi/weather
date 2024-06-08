@@ -34,6 +34,7 @@ export default function WeatherCard() {
 
   const submit = async () => {
     try {
+      console.log(location)
       if (!place) {
         toast.warning("Enter a place name");
         return;

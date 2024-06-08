@@ -28,6 +28,7 @@ const ThemeSwitch = ({props}:any) => {
   useEffect(() => {
     if (mounted) {
       if (isSelected) {
+        console.log(theme)
         setTheme('light');
       } else {
         setTheme('dark');
