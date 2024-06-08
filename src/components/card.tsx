@@ -108,7 +108,7 @@ export default function WeatherCard() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center">
+    <>
       {data ? (
         <div className="bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg border border-gray-300 rounded-md shadow-lg p-4 w-[30rem]">
           <div className="flex flex-col items-center">
@@ -148,6 +148,6 @@ export default function WeatherCard() {
         </div>
       )}
       <Footer />
-    </div>
+    </>
   );
 }
