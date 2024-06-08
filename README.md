@@ -4,6 +4,8 @@
 
 This is a simple weather application that allows users to check the weather conditions of different locations. Users can search for a location by name or allow the application to use their current location to display the weather information. The application also supports light and dark mode.
 
+## Note - GPS SHOULD ON WHILE USING THIS APPLICATION, AS IT FIRST DISPLAY THE WEATHER OF CURRENT LOCATION.
+
 ## Features
 
 - Search for weather conditions by location name
