@@ -3,7 +3,7 @@ import { Button, Input } from "@nextui-org/react";
 import { CircularProgress } from "@nextui-org/react";
 import Toggle from "./toggle";
 import axios from "axios";
-import Footer from "./footer";
+
 import { Link } from "@nextui-org/react";
 import { toast } from "sonner"
 
@@ -49,6 +49,7 @@ export default function WeatherCard() {
   };
 
   const submit = async () => {
+    console.log(location)
     try {
       if (!place) {
         toast.warning("Enter a place name");
