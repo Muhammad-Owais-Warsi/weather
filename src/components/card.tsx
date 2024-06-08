@@ -37,7 +37,7 @@ export default function WeatherCard() {
 
   function LinkTag() {
     return (
-      <Link isExternal href="https://github.com/nextui-org/nextui" showAnchorIcon className="relative bottom-10">
+      <Link isExternal href="https://github.com/Muhammad-Owais-Warsi" showAnchorIcon className="relative bottom-10">
         Owais
       </Link>
     );
